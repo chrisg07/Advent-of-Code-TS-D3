@@ -32,3 +32,6 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
+
+# Advent of Code
+inputs/
