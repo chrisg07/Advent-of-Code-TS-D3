@@ -1,3 +1,5 @@
+# Ignore all input.txt files in nested day directories
+src/*/*/input.txt
 # Node modules
 node_modules/
 
@@ -32,6 +34,3 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
-
-# Advent of Code
-inputs/

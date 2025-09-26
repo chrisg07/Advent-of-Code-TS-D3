@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { readFile, writeFile, unlink } from 'fs/promises';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { writeFile, unlink } from 'fs/promises';
 import path from 'node:path';
+import { part1, part2, getInput } from './index';
 
 describe('YEAR/DAY', () => {
-	const testInput = 'Hello Advent of Code!';
+	const testInput = '123\n456';
 	const inputPath = path.resolve(__dirname, 'input.txt');
 
 	beforeAll(async () => {
@@ -14,8 +16,15 @@ describe('YEAR/DAY', () => {
 		await unlink(inputPath).catch(() => {});
 	});
 
-	it('should read input.txt correctly', async () => {
-		const input = await readFile(inputPath, 'utf-8');
-		expect(input).toBe(testInput);
+	it('part1 should return a number', async () => {
+		const input = await getInput();
+		const result = part1(input);
+		expect(typeof result).toBe('number');
+	});
+
+	it('part2 should return a number', async () => {
+		const input = await getInput();
+		const result = part2(input);
+		expect(typeof result).toBe('number');
 	});
 });

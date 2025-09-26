@@ -1,12 +1,27 @@
 
+
 import { readFile } from 'fs/promises';
 import path from 'node:path';
 
-async function main() {
-	// Read input.txt from the same directory
+export async function getInput() {
 	const inputPath = path.resolve(__dirname, 'input.txt');
-	const input = await readFile(inputPath, 'utf-8');
-	console.log(input);
+	return readFile(inputPath, 'utf-8');
 }
 
-main();
+export function part1(input: string): unknown {
+	// TODO: Implement Part 1 solution
+	return input;
+}
+
+export function part2(input: string): unknown {
+	// TODO: Implement Part 2 solution
+	return input;
+}
+
+if (require.main === module) {
+	(async () => {
+		const input = await getInput();
+		console.log('Part 1:', part1(input));
+		console.log('Part 2:', part2(input));
+	})();
+}
