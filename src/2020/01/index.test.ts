@@ -1,18 +1,9 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { writeFile, unlink, readFile } from 'fs/promises';
 import path from 'node:path';
-import { part1, part2, getInput, findPairWithSum } from './index';
+import { part1, part2, getInput, findPairWithSum, findTripletWithSum } from './index';
 
 describe('2020/01', () => {
-	const testInput = '123\n456';
-	const inputPath = path.resolve(__dirname, 'input.txt');
-
-	beforeAll(async () => {
-	});
-
-	afterAll(async () => {
-	});
-
 	it('should find pair that sums to 2020', async () => {
 		const input = [
 			1721,
@@ -30,13 +21,27 @@ describe('2020/01', () => {
 	it('part1 should return a number', async () => {
 		const input = await getInput();
 		const result = part1(input);
-		expect(result).toBe(514579);
+		expect(result).toBe(1007331);
+	});
+
+	it('should calculate expected value for part two example', async () => {
+		const input = [
+			1721,
+			979,
+			366,
+			299,
+			675,
+			1456
+		];
+		const expected = [979, 366, 675];
+		const result = findTripletWithSum(input, 2020);
+		expect(result).toEqual(expected);	
 	});
 
 	it('part2 should return a number', async () => {
 		const input = await getInput();
 		const result = part2(input);
-		expect(typeof result).toBe('number');
+		expect(result).toBe(48914340);
 	});
 
 	// New: also test part1/part2 with example.txt if present
