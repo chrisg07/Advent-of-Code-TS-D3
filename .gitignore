@@ -1,5 +1,6 @@
 # Ignore all input.txt files in nested day directories
 src/*/*/input.txt
+public/inputs/
 # Node modules
 node_modules/
 
