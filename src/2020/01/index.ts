@@ -1,6 +1,3 @@
-import { readFile } from 'fs/promises';
-import path from 'node:path';
-
 export async function getInput() {
 	// @ts-ignore
 	if (typeof window !== 'undefined' && typeof fetch === 'function') {
