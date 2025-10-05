@@ -36,6 +36,27 @@ async function scaffoldNewDay() {
 	const inputPath = path.join(dayDir, 'input.txt');
 	await writeFile(inputPath, '', { flag: 'wx' }).catch(() => {});
 
+	const htmlPath = path.resolve('public', `${year}-${day}.html`);
+	const htmlContent = `
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>AoC ${year} Day ${day} Visualization</title>
+	</head>
+	<body>
+		<div id="viz"></div>
+		<script type="module" src="/src/${year}/${day}/visualize.ts"></script>
+	</body>
+	</html>
+	`.trim();
+	await writeFile(htmlPath, htmlContent, { flag: 'wx' }).catch(() => {});
+
+	// 2. Optionally create a default visualize.ts if not present
+	const vizPath = path.resolve('src', year, day, 'visualize.ts');
+	const vizContent = `// Visualization for ${year} Day ${day}\n\nexport default function visualize() {\n  // TODO: Implement visualization\n}\n`;
+	await writeFile(vizPath, vizContent, { flag: 'wx' }).catch(() => {});
+
 	console.log(`Scaffolded src/${year}/${day}/ and src/${year}/${day}/input.txt`);
 }
 
