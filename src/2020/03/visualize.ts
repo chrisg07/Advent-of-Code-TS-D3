@@ -1,7 +1,5 @@
 import * as d3 from 'd3';
 
-
-
 async function getInputBrowser() {
   const res = await fetch('/inputs/2020-03-input.txt');
   return res.text();

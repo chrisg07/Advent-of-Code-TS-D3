@@ -17,15 +17,17 @@ async function scaffoldNewDay() {
 
 	// Prepare template file paths
 	const templatesDir = path.resolve('templates', 'day');
+
 	const files = [
 		{ name: 'index.ts', out: 'index.ts' },
 		{ name: 'index.test.ts', out: 'index.test.ts' },
 		{ name: 'style.css', out: 'style.css' },
+		{ name: 'visualize.ts', out: 'visualize.ts' },
 	];
 
 	for (const { name, out } of files) {
 		const templatePath = path.join(templatesDir, name);
-		let content = await readFile(templatePath, 'utf-8');
+		let content = await readFile(templatePath, 'utf-8').catch(() => '');
 		content = content
 			.replace(/YEAR/g, year)
 			.replace(/DAY/g, day);
@@ -52,10 +54,7 @@ async function scaffoldNewDay() {
 	`.trim();
 	await writeFile(htmlPath, htmlContent, { flag: 'wx' }).catch(() => {});
 
-	// 2. Optionally create a default visualize.ts if not present
-	const vizPath = path.resolve('src', year, day, 'visualize.ts');
-	const vizContent = `// Visualization for ${year} Day ${day}\n\nexport default function visualize() {\n  // TODO: Implement visualization\n}\n`;
-	await writeFile(vizPath, vizContent, { flag: 'wx' }).catch(() => {});
+	// visualize.ts is now handled by the template copy above
 
 	console.log(`Scaffolded src/${year}/${day}/ and src/${year}/${day}/input.txt`);
 }
