@@ -18,7 +18,7 @@ describe('YEAR/DAY', () => {
 	});
 
 	it('part2 should return expected value for example case', async () => {
-		const result = part1(exampleInput);
+		const result = part2(exampleInput);
 		expect(result).toBe(0);
 	});
 	
