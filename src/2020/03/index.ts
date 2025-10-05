@@ -22,8 +22,7 @@ function calculateTreesOnSlope(forest, deltaX, deltaY): number {
 		x += deltaX
 		const rowOfTrees = forest[y]
 		const boundedX = x % rowOfTrees.length
-		const cell = forest[y].charAt(boundedX);
-		console.log(`Position`, x, y, cell)
+		const cell = forest[y].charAt(boundedX)
 		if (cell == "#") {
 			treesEncountered++
 		}
@@ -38,8 +37,16 @@ export function part1(input: string): unknown {
 }
 
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	input = input.trim()
+	const forest = input.split('\n').map(line => line.trim())
+	const slopes = [
+		calculateTreesOnSlope(forest, 1, 1),
+		calculateTreesOnSlope(forest, 3, 1),
+		calculateTreesOnSlope(forest, 5, 1),
+		calculateTreesOnSlope(forest, 7, 1),
+		calculateTreesOnSlope(forest, 1, 2),
+	]
+	return slopes.reduce((prev, next) => prev * next);
 }
 
 // Only run this block in Node.js
