@@ -79,10 +79,11 @@ export function part2(input: string): unknown {
 	return count;
 }
 
-if (require.main === module) {
-	(async () => {
-		const input = await getInput();
-		console.log('Part 1:', part1(input));
-		console.log('Part 2:', part2(input));
-	})();
+// Only run this block in Node.js
+if (typeof process !== 'undefined' && process.release && process.release.name === 'node' && typeof require !== 'undefined' && require.main === module) {
+  (async () => {
+	const input = await getInput();
+	console.log('Part 1:', part1(input));
+	console.log('Part 2:', part2(input));
+  })();
 }
