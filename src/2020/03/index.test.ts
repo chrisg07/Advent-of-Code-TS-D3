@@ -23,7 +23,7 @@ describe('2020/03', () => {
 	it('part1 should return a number', async () => {
 		const input = await getInput();
 		const result = part1(input);
-		expect(result).toBe(0);
+		expect(result).toBe(211);
 	});
 
 	// it('part2 should return expected value for example case', async () => {

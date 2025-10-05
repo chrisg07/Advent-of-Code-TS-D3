@@ -14,14 +14,13 @@ export async function getInput() {
 	}
 }
 
-export function part1(input: string): unknown {
-	input = input.trim()
+function calculateTreesOnSlope(forest, deltaX, deltaY): number {
 	let treesEncountered = 0
-	const forest = input.split('\n').map(line => line.trim())
 	let x = 0
-	for (let [y, rowOfTrees] of forest.entries()) {		
+	for (let y = 0; y < forest.length; y += deltaY) {		
 		if (y == 0) continue
-		x += 3
+		x += deltaX
+		const rowOfTrees = forest[y]
 		const boundedX = x % rowOfTrees.length
 		const cell = forest[y].charAt(boundedX);
 		console.log(`Position`, x, y, cell)
@@ -29,7 +28,13 @@ export function part1(input: string): unknown {
 			treesEncountered++
 		}
 	}
-	return treesEncountered;
+	return treesEncountered
+}
+
+export function part1(input: string): unknown {
+	input = input.trim()
+	const forest = input.split('\n').map(line => line.trim())
+	return calculateTreesOnSlope(forest, 3, 1)
 }
 
 export function part2(input: string): unknown {
