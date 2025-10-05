@@ -15,8 +15,21 @@ export async function getInput() {
 }
 
 export function part1(input: string): unknown {
-	// TODO: Implement Part 1 solution
-	return input.length;
+	input = input.trim()
+	let treesEncountered = 0
+	const forest = input.split('\n').map(line => line.trim())
+	let x = 0
+	for (let [y, rowOfTrees] of forest.entries()) {		
+		if (y == 0) continue
+		x += 3
+		const boundedX = x % rowOfTrees.length
+		const cell = forest[y].charAt(boundedX);
+		console.log(`Position`, x, y, cell)
+		if (cell == "#") {
+			treesEncountered++
+		}
+	}
+	return treesEncountered;
 }
 
 export function part2(input: string): unknown {
