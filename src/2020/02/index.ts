@@ -58,9 +58,25 @@ export function part1(input: string): unknown {
 	return count;
 }
 
-export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+export function validatePasswordPart2(password: Password): boolean {
+	const validCharAtMin = password.password.charAt(password.min - 1) === password.char;
+	const validCharAtMax = password.password.charAt(password.max - 1) === password.char;
+
+	if (validCharAtMax && validCharAtMin) {
+		return false
+	}
+	return (validCharAtMin && !validCharAtMax) || (!validCharAtMin && validCharAtMax)
+}
+
+export function part2(input: string): unknown {	
+	input = input.trim()
+	let count = 0
+	for (const line of input.split('\n')) {
+		const password = parseLine(line)
+		const valid = validatePasswordPart2(password)
+		if (valid) count++
+	}
+	return count;
 }
 
 if (require.main === module) {
