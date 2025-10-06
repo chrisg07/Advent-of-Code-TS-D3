@@ -15,7 +15,7 @@ export async function getInput() {
 }
 
 export function parseGroups(input: string): string[][] {
-	const chunks = input.split(/\r?\n\r?\n/)
+	const chunks = input.split(/\r?\n\r?\n/).map(chunk => chunk.trim())
 	const responses = chunks.map(chunk => chunk.split(/\n/)).map(responses => responses.map(response => response.trim()))
 	return responses
 }
@@ -57,9 +57,26 @@ export function part1(input: string): unknown {
  	return score;
 }
 
+export function calculateConsensus(map: NumericalValueHashmap, numResponses: number): number {
+	let timesConsensusReached = 0
+	for (const [key, value] of Object.entries(map)) {
+		if (value === numResponses) {
+			timesConsensusReached++
+		}
+ 	}
+	return timesConsensusReached
+}
+
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	const responses = parseGroups(input)
+	const responseMaps = responses.map(responses => createResponseMap(responses))
+	
+	let score = 0
+	for (const [index, value] of responseMaps.entries()) {
+		const consensusReached = calculateConsensus(value, responses[index].length)
+		score += consensusReached
+	}
+ 	return score;
 }
 
 // Only run this block in Node.js
