@@ -63,9 +63,10 @@ export function part1(input: string): unknown {
 	return highestSeatID;
 }
 
-export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+export function part2(input: string): {row: number, column: number, seatID: number}[] {
+	input = input.trim()
+	const passes = input.split('\n').map(line => line.trim())
+	return passes.map(pass => calculateBoardingPass(pass));
 }
 
 // Only run this block in Node.js

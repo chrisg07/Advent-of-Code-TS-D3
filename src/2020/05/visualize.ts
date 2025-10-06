@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { getInput } from './index';
+import { getInput, part2 } from './index';
 
 async function getInputBrowser() {
   // Adjust the year and day as needed when copying this template
@@ -16,6 +16,32 @@ async function visualize() {
 
   // TODO: Parse input and visualize with D3
   d3.select('#viz').append('div').text('Visualization goes here.');
+
+  const passes = part2(input)
+  const cellSize = 20;
+  const width = 8 * cellSize;
+  const height = 128 * cellSize;
+
+  
+  const svg = d3.select('#viz')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+  // Draw map
+  svg.selectAll('rect.cell')
+    .data(passes)
+    .enter()
+    .append('rect')
+    .attr('class', 'cell')
+    .attr('x', d => d.column * cellSize)
+    .attr('y', d => d.row * cellSize)
+    .attr('width', cellSize)
+    .attr('height', cellSize)
+    .attr('fill', d => d.cell === '#' ? '#444' : '#eee')
+    .attr('stroke', '#ccc')
+    .append('title')
+    .text(d => `Row: ${d.row}, Col: ${d.column}, Seat ID: ${d.seatID}`);
 }
 
 visualize();
