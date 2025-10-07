@@ -50,7 +50,7 @@ interface BagMap {
   [key: string]: BagNode;
 }
 
-function parseNodes(input: string): BagMap {
+export function parseNodes(input: string): BagMap {
 	const bagMap: BagMap = {}
 
 	const lines = input.split("\n")
