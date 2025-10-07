@@ -56,14 +56,26 @@ describe('2020/07', () => {
 		expect(result).toBe(274);
 	});
 
-	// it('part2 should return expected value for example case', async () => {
-	// 	const result = part2(exampleInput);
-	// 	expect(result).toBe(0);
-	// });
+	it('part2 should return expected value for example case', async () => {
+		const result = part2(exampleInput);
+		expect(result).toBe(32);
+	});
+
+	const exampleInputPart2 = `shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.`
+	it('part2 should return expected value for example case', async () => {
+		const result = part2(exampleInputPart2);
+		expect(result).toBe(126);
+	});
 	
-	// it('part2 should return a number', async () => {
-	// 	const input = await getInput();
-	// 	const result = part2(input);
-	// 	expect(result).toBe(0);
-	// });
+	it('part2 should return a number', async () => {
+		const input = await getInput();
+		const result = part2(input);
+		expect(result).toBe(158730);
+	});
 });

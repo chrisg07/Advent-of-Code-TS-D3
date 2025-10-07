@@ -64,7 +64,7 @@ function parseNodes(input: string): BagMap {
 
 let nodes: BagMap = {}
 
-function dfs(node: BagNode): boolean {
+function treeContainsShinyGold(node: BagNode): boolean {
 	if (node.children.length == 0) {
 		return false
 	}
@@ -72,7 +72,7 @@ function dfs(node: BagNode): boolean {
 	if (node.value == "shiny gold") return true
 	
 	for (const child of node.children) {
-		if (dfs(nodes[child.value])) return true
+		if (treeContainsShinyGold(nodes[child.value])) return true
 	}
 	return false
 }
@@ -82,7 +82,7 @@ export function part1(input: string): unknown {
 
 	let subTreesThatIncludeShinyGoldBag = 0
 	for (const [key, value] of Object.entries(nodes)) {
-		if (dfs(nodes[value.value])) {
+		if (treeContainsShinyGold(nodes[value.value])) {
 			subTreesThatIncludeShinyGoldBag++
 		}
 	}
@@ -90,9 +90,24 @@ export function part1(input: string): unknown {
 	return subTreesThatIncludeShinyGoldBag - 1
 }
 
+function getTotalBagsOfTree(node: BagNode): number {
+	let totalBags = 1
+	if (node.children.length == 0) return 1
+	
+	for (const child of node.children) {
+		totalBags += getTotalBagsOfTree(nodes[child.value]) * child.weight
+	}
+	return totalBags
+}
+
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	nodes = parseNodes(input.trim())
+	let totalBags = getTotalBagsOfTree(nodes["shiny gold"])
+
+	// for (const child of nodes["shiny gold"].children) {
+	// 	totalBags += child.weight
+	// }
+	return totalBags - 1
 }
 
 // Only run this block in Node.js
