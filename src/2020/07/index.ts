@@ -93,7 +93,6 @@ export function part1(input: string): unknown {
 function getTotalBagsOfTree(node: BagNode): number {
 	let totalBags = 1
 	if (node.children.length == 0) return 1
-	
 	for (const child of node.children) {
 		totalBags += getTotalBagsOfTree(nodes[child.value]) * child.weight
 	}
@@ -103,10 +102,6 @@ function getTotalBagsOfTree(node: BagNode): number {
 export function part2(input: string): unknown {
 	nodes = parseNodes(input.trim())
 	let totalBags = getTotalBagsOfTree(nodes["shiny gold"])
-
-	// for (const child of nodes["shiny gold"].children) {
-	// 	totalBags += child.weight
-	// }
 	return totalBags - 1
 }
 
