@@ -61,8 +61,8 @@ async function visualize() {
   root.y0 = 0;
   root.descendants().forEach((d: any, i: number) => {
     d.id = i;
-    d._children = d.children;
-    if (d.depth && d.data.name.length !== 7) d.children = null;
+    // Do not collapse any nodes: leave all children expanded
+    d._children = null;
   });
 
   function update(event: any, source: any) {
