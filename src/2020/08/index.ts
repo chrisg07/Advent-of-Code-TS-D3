@@ -14,9 +14,52 @@ export async function getInput() {
 	}
 }
 
+export function parseInstructions(input: string): {command: string, value: number}[] {
+	const lines = input.split('\n')
+	const instructions = []
+	for (const line of lines) {
+		const parts = line.trim().split(" ")
+		instructions.push({command: parts[0], value: [parts[1]].map(Number)[0]})
+	}
+
+	return instructions
+}
+
 export function part1(input: string): unknown {
-	// TODO: Implement Part 1 solution
-	return input.length;
+	const instructions: {command: string, value: number, executionCount: number}[] = parseInstructions(input.trim()).map((instruction) => ({
+		command: instruction.command,
+		value: instruction.value,
+		executionCount: 0
+	}))
+
+	let instructionIndex = 0
+	let instruction =  instructions[instructionIndex]
+	let accumulator = 0
+	
+	
+	while (instruction.executionCount == 0) {
+		instruction.executionCount++
+
+		if (instruction.command == "nop") {
+			instructionIndex++
+			instruction = instructions[instructionIndex]
+			continue
+
+		}
+		if (instruction.command == "acc") {
+			accumulator += instruction.value
+			instructionIndex++
+			instruction = instructions[instructionIndex]
+			continue
+		}
+		if (instruction.command == "jmp") {
+			instructionIndex = instructionIndex + instruction.value
+			instruction = instructions[instructionIndex]
+			continue
+		}
+	}
+
+	return accumulator;
 }
 
 export function part2(input: string): unknown {
