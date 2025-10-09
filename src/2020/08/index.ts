@@ -63,8 +63,72 @@ export function part1(input: string): unknown {
 }
 
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	// assuming instructions should still only be executed a maximum of one time
+	let instructions: {command: string, value: number, executionCount: number}[] = parseInstructions(input.trim()).map((instruction) => ({
+		command: instruction.command,
+		value: instruction.value,
+		executionCount: 0
+	}))
+
+	let accumulator = 0
+
+	// need to set all executionCount back to 0
+	for (let i = 0; i < instructions.length; i++) {
+		instructions = instructions.map(instruction => ({
+			...instruction,
+			executionCount: 0
+		}))
+
+		let command
+		if (instructions[i].command == "jmp") {
+			command = "nop"
+		} else if (instructions[i].command == "nop") {
+			command = "jmp"
+		} else {
+			continue
+		}
+
+		const editedInstruction = {
+			command: command,
+			value: instructions[i].value,
+			executionCount: 0
+		}
+		let editedInstructions = [...instructions]
+		editedInstructions[i] = editedInstruction
+
+		let instructionIndex = 0
+		let instruction =  editedInstructions[instructionIndex]
+		let curAccumalator = 0
+		
+		while (instruction?.executionCount == 0) {
+			instruction.executionCount++
+
+			if (instruction.command == "nop") {
+				instructionIndex++
+				instruction = editedInstructions[instructionIndex]
+				continue
+			}
+			if (instruction.command == "acc") {
+				curAccumalator += instruction.value
+				instructionIndex++
+				instruction = editedInstructions[instructionIndex]
+				continue
+			}
+			if (instruction.command == "jmp") {
+				instructionIndex = instructionIndex + instruction.value
+				instruction = editedInstructions[instructionIndex]
+				continue
+			}
+
+		}
+			
+		if (instructionIndex == editedInstructions.length) {
+			accumulator = curAccumalator
+		}
+
+	}
+
+	return accumulator;
 }
 
 // Only run this block in Node.js
