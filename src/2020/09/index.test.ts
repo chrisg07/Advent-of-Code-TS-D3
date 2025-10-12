@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { part1, part2, getInput, parseSumPairPermutations } from './index';
+import { part1, part2, getInput, parseSumPairPermutations, sumList } from './index';
 
 const exampleInput = `35
 20
@@ -45,14 +45,19 @@ describe('2020/09', () => {
 		expect(result).toBe(85848519);
 	});
 
-	// it('part2 should return expected value for example case', async () => {
-	// 	const result = part2(exampleInput);
-	// 	expect(result).toBe(0);
-	// });
+	it('should calculate the total sum of a list of numbers', async () => {
+		const result = sumList([15, 25, 47, 40]);
+		expect(result).toBe(127)
+	});
+
+	it('part2 should return expected value for example case', async () => {
+		const result = part2(exampleInput, 5);
+		expect(result).toBe(62);
+	});
 	
-	// it('part2 should return a number', async () => {
-	// 	const input = await getInput();
-	// 	const result = part2(input);
-	// 	expect(result).toBe(0);
-	// });
+	it('part2 should return a number', async () => {
+		const input = await getInput();
+		const result = part2(input, 25);
+		expect(result).toBe(13414198);
+	});
 });

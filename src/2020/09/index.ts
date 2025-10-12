@@ -44,9 +44,38 @@ export function part1(input: string, preambleLength: number): unknown {
 	return -1;
 }
 
-export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+export function sumList(list: number[]): number {
+	return list.reduce((a, b) => a + b)
+}
+
+export function part2(input: string, preambleLength: number): number {
+	const nums = input.trim().split('\n').map(Number)
+
+	let needle = 0
+	for (let i = preambleLength; i < nums.length; i++) {
+		let sums = parseSumPairPermutations(nums.slice(i - preambleLength, i))
+		const element = nums[i];
+		
+		if (!sums.includes(element)) {
+			needle = element
+			break
+		}
+	}
+
+	let range = nums.slice(0, 2)
+
+	for (let i = 0; i < nums.length - 3; i++) {
+		for (let j = i + 2; j < nums.length - 1; j++) {
+			range = nums.slice(i, j)
+			if (sumList(range) == needle) break
+			if (sumList(range) > needle) break
+		}
+		if (sumList(range) == needle) break
+		if (sumList(range) > needle) continue
+	}
+
+	range = range.sort()
+	return range[0] + range[range.length - 1];
 }
 
 // Only run this block in Node.js
