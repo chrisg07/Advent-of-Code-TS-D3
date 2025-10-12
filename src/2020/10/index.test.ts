@@ -70,17 +70,17 @@ describe('2020/10', () => {
 
 	it('part2 should return expected value for small example case', async () => {
 		const result = part2(smallExampleInput);
-		expect(result).toBe(8);
+		expect(result).toBe(8n);
 	});
 
 	it('part2 should return expected value for example case', async () => {
 		const result = part2(exampleInput);
-		expect(result).toBe(19208);
+		expect(result).toBe(19208n);
 	});
 	
 	it('part2 should return a number', async () => {
 		const input = await getInput();
 		const result = part2(input);
-		expect(result).toBe(0);
+		expect(result).toBe(42313823813632n);
 	});
 });

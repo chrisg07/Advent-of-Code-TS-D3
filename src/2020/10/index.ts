@@ -44,15 +44,21 @@ export type AdapterNode = {
 	children: number[]
 }
 
-function getTotalChainsOfTree(node: AdapterNode, nodes: AdapterMap): number {
-	let totalChains = 0
+function getTotalChainsOfTree(node: AdapterNode, nodes: AdapterMap, memo: Map<number, bigint>): bigint {
+	if (memo.has(node.value)) return memo.get(node.value)!
 
-	if (node.children.length == 0) totalChains += 1
-	for (const child of node.children) {
-		const childNode = nodes[child]
-		totalChains += getTotalChainsOfTree(childNode!, nodes)
+	if (node.children.length == 0) { 
+		memo.set(node.value, 1n)
+		return 1n
 	}
 
+	let totalChains = 0n
+	for (const child of node.children) {
+		const childNode = nodes[child]
+		totalChains += getTotalChainsOfTree(childNode!, nodes, memo)
+	}
+
+	memo.set(node.value, totalChains)
 	return totalChains
 }
 
@@ -83,8 +89,9 @@ export function part2(input: string): unknown {
 	for (const node of nodes) {
 		nodeMap[node.value] = node
 	}
-
-	const chains =  getTotalChainsOfTree(nodes[0], nodeMap)
+	
+	const memo = new Map<number, bigint>();
+	const chains =  getTotalChainsOfTree(nodes[0], nodeMap, memo)
 	
 	return chains;
 }
