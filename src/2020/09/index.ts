@@ -14,9 +14,34 @@ export async function getInput() {
 	}
 }
 
-export function part1(input: string): unknown {
-	// TODO: Implement Part 1 solution
-	return input.length;
+export function parseSumPairPermutations(values: number[]): number[] {
+	let sums = []
+
+	for (let index = 0; index < values.length - 1; index++) {
+		const first = values[index];
+		
+		for (let j = 1; j < values.length; j++) {
+			const second = values[j];
+			sums.push(first + second)
+		}
+	}
+
+	return sums
+}
+
+export function part1(input: string, preambleLength: number): unknown {
+	const nums = input.trim().split('\n').map(Number)
+
+	for (let i = preambleLength; i < nums.length; i++) {
+		let sums = parseSumPairPermutations(nums.slice(i - preambleLength, i))
+		const element = nums[i];
+		
+		if (!sums.includes(element)) {
+			return element
+		}
+	}
+
+	return -1;
 }
 
 export function part2(input: string): unknown {
