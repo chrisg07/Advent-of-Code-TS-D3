@@ -14,9 +14,33 @@ export async function getInput() {
 	}
 }
 
+export type AdapterNode = {
+	value: number,
+	children: AdapterNode[]
+}
+
+export function parseNumList(input: string): number[] {
+	return input.trim().split("\n").map(Number)
+}
+
+export function countIncrementsOf(numbers: number[], delta: number): number {
+	let occurrences = 0
+	numbers = [0, ...numbers.sort((a, b) => a - b), numbers[numbers.length - 1] + 3] 
+	
+	for (let i = 0; i < numbers.length - 1; i++) {
+		const first = numbers[i];
+		const second = numbers[i + 1]
+		
+		if (second - first === delta) occurrences++
+	}
+
+	return occurrences
+}
 export function part1(input: string): unknown {
-	// TODO: Implement Part 1 solution
-	return input.length;
+	const numbers = parseNumList(input)
+	const spansOfOne = countIncrementsOf(numbers, 1)
+	const spansOfThree = countIncrementsOf(numbers, 3)
+	return spansOfOne * spansOfThree;
 }
 
 export function part2(input: string): unknown {
