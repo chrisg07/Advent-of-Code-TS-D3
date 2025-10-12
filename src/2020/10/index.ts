@@ -14,11 +14,6 @@ export async function getInput() {
 	}
 }
 
-export type AdapterNode = {
-	value: number,
-	children: AdapterNode[]
-}
-
 export function parseNumList(input: string): number[] {
 	return input.trim().split("\n").map(Number)
 }
@@ -36,6 +31,7 @@ export function countIncrementsOf(numbers: number[], delta: number): number {
 
 	return occurrences
 }
+
 export function part1(input: string): unknown {
 	const numbers = parseNumList(input)
 	const spansOfOne = countIncrementsOf(numbers, 1)
@@ -43,9 +39,54 @@ export function part1(input: string): unknown {
 	return spansOfOne * spansOfThree;
 }
 
+export type AdapterNode = {
+	value: number,
+	children: number[]
+}
+
+function getTotalChainsOfTree(node: AdapterNode, nodes: AdapterMap): number {
+	let totalChains = 0
+
+	if (node.children.length == 0) totalChains += 1
+	for (const child of node.children) {
+		const childNode = nodes[child]
+		totalChains += getTotalChainsOfTree(childNode!, nodes)
+	}
+
+	return totalChains
+}
+
+interface AdapterMap {
+  [key: number]: AdapterNode;
+}
+
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	let numbers = parseNumList(input)
+	numbers = [0, ...numbers.sort((a, b) => a - b), numbers[numbers.length - 1] + 3] 
+	let nodes: AdapterNode[] = numbers.map(num => ({value: num, children: []}))
+
+	for (let node of nodes) {
+		let children = []
+		if (numbers.includes(node.value + 1)) {
+			children.push(node.value + 1)
+		}
+		if (numbers.includes(node.value + 2)) {
+			children.push(node.value + 2)
+		}
+		if (numbers.includes(node.value + 3)) {
+			children.push(node.value + 3)
+		}
+		node.children = children
+	}
+
+	let nodeMap: AdapterMap = {}
+	for (const node of nodes) {
+		nodeMap[node.value] = node
+	}
+
+	const chains =  getTotalChainsOfTree(nodes[0], nodeMap)
+	
+	return chains;
 }
 
 // Only run this block in Node.js
