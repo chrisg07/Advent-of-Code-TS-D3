@@ -1,5 +1,3 @@
-import { c } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
-
 export async function getInput() {
 	// @ts-ignore
 	if (typeof window !== 'undefined' && typeof fetch === 'function') {
@@ -29,199 +27,140 @@ class FerryContext {
 }
 
 abstract class State {
-	public context!: FerryContext
+	public ferry!: FerryContext
+	public waypoint!: WaypointContext
+	
+	constructor(ferry: FerryContext, waypoint?: WaypointContext) {
+		this.ferry = ferry
+		if (waypoint) {
+			this.waypoint = waypoint
+		}
+	}
 
 	public abstract handleInstruction(amount: number): void
 }
 
 class ForwardState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
-		switch(this.context.direction) {
+		switch(this.ferry.direction) {
 			case "east": 
-				this.context.x += amount
+				this.ferry.x += amount
 				break
 			case "west":
-				this.context.x -= amount
+				this.ferry.x -= amount
 				break
 			case "north":
-				this.context.y += amount
+				this.ferry.y += amount
 				break
 			case "south":
-				this.context.y -= amount
+				this.ferry.y -= amount
 				break
 		}
 	}
 }
 
 class EastState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
-		this.context.x += amount
+		this.ferry.x += amount
 	}
 }
 
 class WestState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
-		this.context.x -= amount
+		this.ferry.x -= amount
 	}
 }
 
 class NorthState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
-		this.context.y += amount
+		this.ferry.y += amount
 	}
 }
 
 class SouthState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
-		this.context.y -= amount
+		this.ferry.y -= amount
 	}
 }
 
 class RightState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
 	}
 
 	public handleInstruction(amount: number): void {
 		switch (amount) {
-			case 90:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "north"
-						break;
-					case "north":
-						this.context.direction = "east"
-						break;
-					case "east":
-						this.context.direction = "south"
-						break;
-					case "south":
-						this.context.direction = "west"
-						break;
-				}
+			case 270: this.turnRight()
+			case 180: this.turnRight()
+			case 90: this.turnRight()
+		}
+	}
+
+	private turnRight() {
+		switch (this.ferry.direction) {
+			case "west":
+				this.ferry.direction = "north";
 				break;
-			case 180:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "east"
-						break;
-					case "north":
-						this.context.direction = "south"
-						break;
-					case "east":
-						this.context.direction = "west"
-						break;
-					case "south":
-						this.context.direction = "north"
-						break;
-				}
-				break;					
-			case 270:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "south"
-						break;
-					case "north":
-						this.context.direction = "west"
-						break;
-					case "east":
-						this.context.direction = "north"
-						break;
-					case "south":
-						this.context.direction = "east"
-						break;
-				}
+			case "north":
+				this.ferry.direction = "east";
 				break;
-			default:
+			case "east":
+				this.ferry.direction = "south";
+				break;
+			case "south":
+				this.ferry.direction = "west";
 				break;
 		}
 	}
 }
 
 class LeftState extends State {
-	constructor(context: FerryContext) {
-		super()
-		this.context = context
+	constructor(ferry: FerryContext) {
+		super(ferry)
+	}
+
+	private turnLeft(): void {
+		switch (this.ferry.direction) {
+			case "west":
+				this.ferry.direction = "south"
+				break;
+			case "north":
+				this.ferry.direction = "west"
+				break;
+			case "east":
+				this.ferry.direction = "north"
+				break;
+			case "south":
+				this.ferry.direction = "east"
+				break;
+		}
 	}
 
 	public handleInstruction(amount: number): void {
 		switch (amount) {
-			case 90:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "south"
-						break;
-					case "north":
-						this.context.direction = "west"
-						break;
-					case "east":
-						this.context.direction = "north"
-						break;
-					case "south":
-						this.context.direction = "east"
-						break;
-				}
-				break;
-			case 180:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "east"
-						break;
-					case "north":
-						this.context.direction = "south"
-						break;
-					case "east":
-						this.context.direction = "west"
-						break;
-					case "south":
-						this.context.direction = "north"
-						break;
-				}
-				break;					
-			case 270:
-				switch (this.context.direction) {
-					case "west":
-						this.context.direction = "north"
-						break;
-					case "north":
-						this.context.direction = "east"
-						break;
-					case "east":
-						this.context.direction = "south"
-						break;
-					case "south":
-						this.context.direction = "west"
-						break;
-				}
-				break;
-			default:
-				break;
+			case 270: this.turnLeft()
+			case 180: this.turnLeft()
+			case 90: this.turnLeft()
 		}
 	}
 }
@@ -269,9 +208,130 @@ export function part1(input: string): unknown {
 	return Math.abs(ferry.x) + Math.abs(ferry.y);
 }
 
+class WaypointContext {
+	public state!: State;
+	public x: number = 10
+	public y: number = 1
+	public directionRelativeToShip: string = "north"
+
+	constructor() {}
+
+	setState(state: State): void {
+		this.state = state
+	}
+}
+
+class WaypointNorthState extends State {
+	public handleInstruction(amount: number): void {
+		this.waypoint.y += amount
+	}
+}
+
+class WaypointSouthState extends State {
+	public handleInstruction(amount: number): void {
+		this.waypoint.y -= amount
+	}
+}
+
+class WaypointEastState extends State {
+	public handleInstruction(amount: number): void {
+		this.waypoint.x += amount
+	}
+}
+
+class WaypointWestState extends State {
+	public handleInstruction(amount: number): void {
+		this.waypoint.x -= amount
+	}
+}
+
+class RotateWaypointLeftState extends State {
+	public handleInstruction(amount: number): void {
+		switch (amount) {
+			case 270: this.turnLeft()
+			case 180: this.turnLeft()
+			case 90: this.turnLeft()
+		}
+	}
+
+	private turnLeft() {
+		const tempX = this.waypoint.x;
+		this.waypoint.x = this.waypoint.y * -1;
+		this.waypoint.y = tempX;
+	}
+}
+
+class RotateWaypointRightState extends State {
+	public handleInstruction(amount: number): void {
+		switch (amount) {
+			case 270: this.turnRight()
+			case 180: this.turnRight()
+			case 90: this.turnRight()
+		}
+	}
+
+	private turnRight() {
+		const tempX = this.waypoint.x;
+		this.waypoint.x = this.waypoint.y;
+		this.waypoint.y = tempX * -1;
+	}
+}
+
+class MoveFerryForwardState extends State {
+	public handleInstruction(amount: number): void {
+		for (let i = 0; i < amount; i++) {
+			this.ferry.x += this.waypoint.x
+			this.ferry.y += this.waypoint.y
+		}
+		console.log(`Moved forward to (${this.ferry.x}, ${this.ferry.y})`);
+		
+	}
+}
+
+
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	const instructions = input.trim().split("\n")
+	
+	const ferry = new FerryContext()
+	ferry.setState(new EastState(ferry))
+	ferry.state.handleInstruction(0)
+
+	const waypoint = new WaypointContext()
+
+	for (const instruction of instructions) {
+		const command = instruction.substring(0, 1)
+		const amount =  [instruction.substring(1)].map(Number)[0]
+
+		switch (command) {
+			case "E":
+				ferry.setState(new WaypointEastState(ferry, waypoint))
+				break;
+			case "F":
+				ferry.setState(new MoveFerryForwardState(ferry, waypoint))
+				break;
+			case "N":
+				ferry.setState(new WaypointNorthState(ferry, waypoint))
+				break
+			case "R":
+				ferry.setState(new RotateWaypointRightState(ferry, waypoint))
+				break
+			case "W":
+				ferry.setState(new WaypointWestState(ferry, waypoint))
+				break
+			case "S":
+				ferry.setState(new WaypointSouthState(ferry, waypoint))
+				break
+			case "L":
+				ferry.setState(new RotateWaypointLeftState(ferry, waypoint))
+				break
+			default:
+				console.log("Instruction not implemented yet: ", command);
+				break;
+		}
+		
+		ferry.state.handleInstruction(amount)
+	}
+	return Math.abs(ferry.x) + Math.abs(ferry.y);
 }
 
 // Only run this block in Node.js

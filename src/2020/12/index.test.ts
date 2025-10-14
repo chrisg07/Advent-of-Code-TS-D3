@@ -20,14 +20,14 @@ describe('2020/12', () => {
 		expect(result).toBe(1687);
 	});
 
-	// it('part2 should return expected value for example case', async () => {
-	// 	const result = part2(exampleInput);
-	// 	expect(result).toBe(0);
-	// });
+	it('part2 should return expected value for example case', async () => {
+		const result = part2(exampleInput);
+		expect(result).toBe(286);
+	});
 	
-	// it('part2 should return a number', async () => {
-	// 	const input = await getInput();
-	// 	const result = part2(input);
-	// 	expect(result).toBe(0);
-	// });
+	it('part2 should return a number', async () => {
+		const input = await getInput();
+		const result = part2(input);
+		expect(result).toBe(20873);
+	});
 });
