@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { part1, part2, getInput } from './index';
 
-const exampleInput = `123
-456
+const exampleInput = `939
+7,13,x,x,59,x,31,19
 `;
 
 describe('2020/13', () => {
