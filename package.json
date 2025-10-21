@@ -5,20 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "new": "node scripts/new-day.ts",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "new": "tsx scripts/new-day.ts",
+    "fetch": "tsx scripts/fetch-inputs.ts",
+    "test": "vitest"
   },
   "dependencies": {
-    "d3": "^7.9.0"
+    "d3": "^7.9.0",
+    "dotenv": "^17.2.3",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.0.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.16.2",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "vitest": "^2.0.0",
-    "@vitest/coverage-v8": "^2.0.0"
+    "vitest": "^2.0.0"
   }
 }
