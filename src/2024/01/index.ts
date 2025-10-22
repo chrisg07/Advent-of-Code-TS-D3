@@ -15,8 +15,33 @@ export async function getInput() {
 }
 
 export function part1(input: string): unknown {
-	// TODO: Implement Part 1 solution
-	return input.length;
+	const lines = input.trim().split('\n')
+	let left = []
+	let right = []
+
+	for (const line of lines) {
+		const parts = line.split("   ")
+		const leftPart = [parts[0].trim()].map(Number)[0]
+		left.push(leftPart)
+		const rightPart = [parts[1].trim()].map(Number)[0]
+		right.push(rightPart)
+	}
+	left = left.sort((a, b) => a - b)
+	right = right.sort((a, b) => a - b)
+
+	console.table(right);
+
+	let totalDelta = 0
+	for (let i = 0; i < left.length; i++) {
+		const leftVal = left[i];
+		const rightVal = right[i];
+		const delta = Math.abs(leftVal - rightVal)
+		console.log(delta);
+		
+		totalDelta += delta
+	}
+	
+	return totalDelta;
 }
 
 export function part2(input: string): unknown {
