@@ -29,14 +29,11 @@ export function part1(input: string): unknown {
 	left = left.sort((a, b) => a - b)
 	right = right.sort((a, b) => a - b)
 
-	console.table(right);
-
 	let totalDelta = 0
 	for (let i = 0; i < left.length; i++) {
 		const leftVal = left[i];
 		const rightVal = right[i];
 		const delta = Math.abs(leftVal - rightVal)
-		console.log(delta);
 		
 		totalDelta += delta
 	}
@@ -44,9 +41,33 @@ export function part1(input: string): unknown {
 	return totalDelta;
 }
 
+interface FrequencyMap {
+  [key: number]: number;
+}
+
 export function part2(input: string): unknown {
-	// TODO: Implement Part 2 solution
-	return input.length;
+	const lines = input.trim().split('\n')
+	let left = []
+	let right: FrequencyMap = {}
+
+	for (const line of lines) {
+		const parts = line.split("   ")
+		const leftPart = [parts[0].trim()].map(Number)[0]
+		left.push(leftPart)
+		const rightPart = [parts[1].trim()].map(Number)[0]
+		
+		if (right[rightPart]) right[rightPart]++
+		else right[rightPart] = 1
+	}
+
+	let totalDelta = 0
+	for (let i = 0; i < left.length; i++) {
+		const leftVal = left[i];
+		
+		if (right[leftVal]) totalDelta += leftVal * right[leftVal]
+	}
+	
+	return totalDelta;
 }
 
 // Only run this block in Node.js
