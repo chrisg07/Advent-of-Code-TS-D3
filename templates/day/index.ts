@@ -2,11 +2,23 @@ import { getInput } from '../../utils';
 
 export function part1(input: string): unknown {
 	// TODO: Implement Part 1 solution
+	const lines = input.trim().split('\n')
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		
+	}
 	return input.length;
 }
 
 export function part2(input: string): unknown {
 	// TODO: Implement Part 2 solution
+	const lines = input.trim().split('\n')
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		
+	}
 	return input.length;
 }
 

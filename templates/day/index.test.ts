@@ -13,7 +13,7 @@ describe('YEAR/DAY', () => {
 	});
 
 	it('part1 should return a number', async () => {
-		const input = await getInput();
+		const input = await getInput(import.meta.url);
 		const result = part1(input);
 		expect(result).toBe(0);
 	});
@@ -24,7 +24,7 @@ describe('YEAR/DAY', () => {
 	});
 	
 	it('part2 should return a number', async () => {
-		const input = await getInput();
+		const input = await getInput(import.meta.url);
 		const result = part2(input);
 		expect(result).toBe(0);
 	});
