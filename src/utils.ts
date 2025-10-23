@@ -27,4 +27,14 @@ export function parseNumbersFromString(input: string): number[] {
 	}
 
 	return extractedNumbers;
+}export function createFrequencyRecordFromNumbers(list: number[]): Record<number, number> {
+	const rightMap: Record<number, number> = {};
+	for (let i = 0; i < list.length; i++) {
+		const right = list[i];
+
+		if (rightMap[right]) rightMap[right]++;
+		else rightMap[right] = 1;
+	}
+	return rightMap;
 }
+
