@@ -14,3 +14,17 @@ export async function getInput(importMetaUrl: string) {
 		return readFile(inputPath, 'utf-8');
 	}
 }
+
+export function parseNumbersFromString(input: string): number[] {
+	const numberRegex = /(\d+\.?\d*|\.\d+)/g;
+	const matches = input.matchAll(numberRegex);
+
+	const extractedNumbers: number[] = [];
+	for (const match of matches) {
+		if (match[0]) {
+			extractedNumbers.push(parseFloat(match[0]));
+		}
+	}
+
+	return extractedNumbers;
+}

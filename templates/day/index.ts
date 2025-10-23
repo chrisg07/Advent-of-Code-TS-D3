@@ -26,7 +26,7 @@ export function part2(input: string): unknown {
 if (typeof process !== 'undefined' && process.release && process.release.name === 'node' && typeof require !== 'undefined' && require.main === module) {
   (async () => {
 	const { resolve } = await import('node:path');
-	const input = await getInput();
+	const input = await getInput(import.meta.url);
 	console.log('Part 1:', part1(input));
 	console.log('Part 2:', part2(input));
   })();
