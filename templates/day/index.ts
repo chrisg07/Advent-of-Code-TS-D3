@@ -2,24 +2,26 @@ import { getInput } from '../../utils';
 
 export function part1(input: string): unknown {
 	// TODO: Implement Part 1 solution
+    let answer = 0
 	const lines = input.trim().split('\n')
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
 		
 	}
-	return input.length;
+	return answer;
 }
 
 export function part2(input: string): unknown {
 	// TODO: Implement Part 2 solution
+    let answer = 0
 	const lines = input.trim().split('\n')
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
 		
 	}
-	return input.length;
+	return answer;
 }
 
 // Only run this block in Node.js
