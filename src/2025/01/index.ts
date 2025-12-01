@@ -27,13 +27,31 @@ export function part1(input: string): unknown {
 }
 
 export function part2(input: string): unknown {
-  // TODO: Implement Part 2 solution
   let answer = 0;
   const lines = input.trim().split("\n");
+  const dialOptions = 100;
 
+  let dial = 50;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    const instruction = line.charAt(0);
+    const amount = [line.substring(1)].map(Number)[0];
+
+    if (instruction == "L") {
+      for (let i = 0; i < amount; i++) {
+        dial--;
+        if (dial == 0) answer++;
+        if (dial < 0) dial = 99;
+      }
+    } else {
+      for (let i = 0; i < amount; i++) {
+        dial++;
+        if (dial == 100) answer++;
+        if (dial > 100) dial = 1;
+      }
+    }
   }
+
   return answer;
 }
 
