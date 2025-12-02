@@ -29,16 +29,45 @@ function isInvalid(id: string): boolean {
   return left == right;
 }
 
+function isInvalidPart2(id: string): boolean {
+  for (let i = 0; i < id.length; i++) {
+    if (id.length % i === 0) {
+      const sequence = id.substring(0, i);
+      let hadValidSubsection = false;
+      for (let j = i; j < id.length; j += i) {
+        const toMatch = id.substring(j, j + i);
+        if (sequence == toMatch) {
+          continue;
+        } else {
+          hadValidSubsection = true;
+          break;
+        }
+      }
+
+      if (!hadValidSubsection) return true;
+    }
+  }
+
+  return false;
+}
+
 export function part2(input: string): unknown {
-  // TODO: Implement Part 2 solution
-  let answer = 0;
-  const ids = parseNumbersFromString(input);
+  const ids = parseNumbersFromString(input).map((id) => id.toString());
+  const invalidIds = [];
 
   for (let i = 0; i < ids.length; i += 2) {
-    const left = ids[i];
-    const right = ids[i + 1];
+    const left = Number(ids[i]);
+    const right = Number(ids[i + 1]);
+
+    for (let id = left; id <= right; id++) {
+      const invalidId = isInvalidPart2(id.toString());
+      if (invalidId) {
+        invalidIds.push(id);
+      }
+    }
   }
-  return answer;
+
+  return invalidIds.map(Number).reduce((acc, val) => acc + val);
 }
 
 // Only run this block in Node.js
