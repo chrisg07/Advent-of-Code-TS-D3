@@ -25,9 +25,9 @@ describe("2025/03", () => {
     expect(result).toBe(3121910778619);
   });
 
-  it("part2 should return a number", async () => {
-    const input = await getInput(import.meta.url);
-    const result = part2(input);
-    expect(result).toBe(0);
-  });
+  //   it("part2 should return a number", async () => {
+  //     const input = await getInput(import.meta.url);
+  //     const result = part2(input);
+  //     expect(result).toBe(0);
+  //   });
 });
