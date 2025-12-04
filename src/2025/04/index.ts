@@ -1,11 +1,17 @@
 import { getInput } from "../../utils";
 
 export function part1(input: string): unknown {
+  const width = input.split("\n")[0].length;
+  const results = replaceRolls(input, width);
+  return results[0];
+}
+
+function replaceRolls(input: string, width: number): [number, string] {
   let answer = 0;
   const lines = input.trim().split("\n");
-  const width = lines[0].length;
   const line = lines.join("");
 
+  let updatedLine = "";
   for (let i = 0; i < line.length; i++) {
     const west = i % width != 0 ? i - 1 : -1;
     const east = (i + 1) % width != 0 ? i + 1 : -1;
@@ -32,25 +38,33 @@ export function part1(input: string): unknown {
     );
     const neighborSymbols = validNeighbors.map((index) => line.charAt(index));
     const rollsOfPaperNearby = neighborSymbols.filter(
-      (symbol) => symbol == "@" || symbol == "x"
+      (symbol) => symbol == "@"
     );
     if (line.charAt(i) == "@" && rollsOfPaperNearby.length < 4) {
       answer++;
+      updatedLine += ".";
+    } else {
+      updatedLine += line.charAt(i);
     }
   }
 
-  return answer;
+  return [answer, updatedLine];
 }
 
 export function part2(input: string): unknown {
-  // TODO: Implement Part 2 solution
-  let answer = 0;
-  const lines = input.trim().split("\n");
+  let total = 0;
+  const width = input.split("\n")[0].length;
+  const results = replaceRolls(input, width);
+  let amountReplaced = results[0];
+  let nextMap = results[1];
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  while (amountReplaced > 0) {
+    total += amountReplaced;
+    const nextResults = replaceRolls(nextMap, width);
+    amountReplaced = nextResults[0];
+    nextMap = nextResults[1];
   }
-  return answer;
+  return total;
 }
 
 // Only run this block in Node.js
