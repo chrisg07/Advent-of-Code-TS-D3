@@ -1,9 +1,15 @@
-import { getInput } from "../../utils";
+import { getInput, GridHelper } from "../../utils";
 
 export function part1(input: string): unknown {
   const width = input.split("\n")[0].length;
-  const results = replaceRolls(input, width);
-  return results[0];
+
+  let answer = 0;
+  const grid = new GridHelper(input, width);
+  for (const cell of grid.cells) {
+    const rollsOfPaper = cell.neighbors.filter((value) => value == "@");
+    if (cell.value == "@" && rollsOfPaper.length < 4) answer++;
+  }
+  return answer;
 }
 
 function replaceRolls(input: string, width: number): [number, string] {

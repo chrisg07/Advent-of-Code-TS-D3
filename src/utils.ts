@@ -1,40 +1,80 @@
 export async function getInput(importMetaUrl: string) {
-	// @ts-ignore
-	if (typeof window !== 'undefined' && typeof fetch === 'function') {
-		// Browser: fetch input.txt from same directory
-		const res = await fetch('./input.txt');
-		return res.text();
-	} else {
-		// Node.js: use fs/promises
-		const { readFile } = await import('fs/promises');
-		const path = await import('node:path');
-		const { fileURLToPath } = await import('node:url');
-		const callerDir = path.dirname(fileURLToPath(importMetaUrl));
-		const inputPath = path.resolve(callerDir, 'input.txt');
-		return readFile(inputPath, 'utf-8');
-	}
+  // @ts-ignore
+  if (typeof window !== "undefined" && typeof fetch === "function") {
+    // Browser: fetch input.txt from same directory
+    const res = await fetch("./input.txt");
+    return res.text();
+  } else {
+    // Node.js: use fs/promises
+    const { readFile } = await import("fs/promises");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+    const callerDir = path.dirname(fileURLToPath(importMetaUrl));
+    const inputPath = path.resolve(callerDir, "input.txt");
+    return readFile(inputPath, "utf-8");
+  }
 }
 
 export function parseNumbersFromString(input: string): number[] {
-	const numberRegex = /(\d+\.?\d*|\.\d+)/g;
-	const matches = input.matchAll(numberRegex);
+  const numberRegex = /(\d+\.?\d*|\.\d+)/g;
+  const matches = input.matchAll(numberRegex);
 
-	const extractedNumbers: number[] = [];
-	for (const match of matches) {
-		if (match[0]) {
-			extractedNumbers.push(parseFloat(match[0]));
-		}
-	}
+  const extractedNumbers: number[] = [];
+  for (const match of matches) {
+    if (match[0]) {
+      extractedNumbers.push(parseFloat(match[0]));
+    }
+  }
 
-	return extractedNumbers;
-}export function createFrequencyRecordFromNumbers(list: number[]): Record<number, number> {
-	const rightMap: Record<number, number> = {};
-	for (let i = 0; i < list.length; i++) {
-		const right = list[i];
+  return extractedNumbers;
+}
+export function createFrequencyRecordFromNumbers(
+  list: number[]
+): Record<number, number> {
+  const rightMap: Record<number, number> = {};
+  for (let i = 0; i < list.length; i++) {
+    const right = list[i];
 
-		if (rightMap[right]) rightMap[right]++;
-		else rightMap[right] = 1;
-	}
-	return rightMap;
+    if (rightMap[right]) rightMap[right]++;
+    else rightMap[right] = 1;
+  }
+  return rightMap;
 }
 
+export class GridHelper {
+  public cells: { value: string; neighbors: string[] }[] = [];
+
+  constructor(input: string) {
+    const width = input.split("\n")[0].length;
+    const lines = input.trim().split("\n");
+    const line = lines.join("");
+
+    for (let i = 0; i < line.length; i++) {
+      const west = i % width != 0 ? i - 1 : -1;
+      const east = (i + 1) % width != 0 ? i + 1 : -1;
+      const north = i - width;
+      const south = i + width;
+      const northWest = i % width != 0 ? i - width - 1 : -1;
+      const northEast = (i + 1) % width != 0 ? i - width + 1 : -1;
+      const southWest = i % width != 0 ? i + width - 1 : -1;
+      const southEast = (i + 1) % width != 0 ? i + width + 1 : -1;
+
+      const neighbors = [
+        west,
+        east,
+        north,
+        south,
+        northWest,
+        northEast,
+        southWest,
+        southEast,
+      ];
+
+      const validNeighbors = neighbors.filter(
+        (index) => index >= 0 && index <= line.length
+      );
+      const neighborSymbols = validNeighbors.map((index) => line.charAt(index));
+      this.cells.push({ value: line.charAt(i), neighbors: neighborSymbols });
+    }
+  }
+}
