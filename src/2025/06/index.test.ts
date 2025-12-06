@@ -11,14 +11,14 @@ const exampleInput = `123 328  51 64
 describe("2025/06", () => {
   it("part1 should return expected value for example case", async () => {
     const result = part1(exampleInput);
-    expect(result).toBe(0);
+    expect(result).toBe(4277556n);
   });
 
-  // it('part1 should return a number', async () => {
-  // 	const input = await getInput(import.meta.url);
-  // 	const result = part1(input);
-  // 	expect(result).toBe(0);
-  // });
+  it("part1 should return a number", async () => {
+    const input = await getInput(import.meta.url);
+    const result = part1(input);
+    expect(result).toBe(5227286044585n);
+  });
 
   // it('part2 should return expected value for example case', async () => {
   // 	const result = part2(exampleInput);
