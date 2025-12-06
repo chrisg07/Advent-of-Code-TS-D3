@@ -45,13 +45,54 @@ export function part1(input: string): unknown {
 }
 
 export function part2(input: string): unknown {
-  // TODO: Implement Part 2 solution
-  let answer = 0;
-  const lines = input.trim().split("\n");
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  let answer = 0n;
+  let columns: bigint[][] = [];
+  const lines = input.split("\n");
+  const height = lines.length - 2;
+  const numColumns = lines[0].split(" ").filter((str) => str != "").length;
+  const lastLine = lines[lines.length - 2];
+  for (let i = 0; i < numColumns; i++) {
+    columns.push([]);
   }
+  const operations = lastLine
+    .split(" ")
+    .map((str) => str.trim())
+    .filter((str) => str != "");
+  let currentColumn = 0;
+  for (let i = 0; i < lines[0].length; i++) {
+    let numStr = "";
+    const nextOperationColumn =
+      lastLine.charAt(i + 1) === "*" || lastLine.charAt(i + 1) === "+";
+    if (!nextOperationColumn) {
+      for (let row = 0; row < height; row++) {
+        numStr += lines[row].charAt(i);
+      }
+
+      const num = BigInt(Number(numStr));
+      columns[currentColumn].push(num);
+    } else {
+      currentColumn++;
+    }
+  }
+
+  for (let j = 0; j < numColumns; j++) {
+    const column = columns[j];
+    const operation = operations[j];
+    if (operation == "*") {
+      const product = column.reduce((acc, val) => {
+        return acc * val;
+      });
+      const updatedResult = answer + product;
+      answer = updatedResult;
+    } else if (operation == "+") {
+      const sum = column.reduce((acc, val) => {
+        return acc + val;
+      });
+      const updatedResult = answer + sum;
+      answer = updatedResult;
+    }
+  }
+
   return answer;
 }
 
