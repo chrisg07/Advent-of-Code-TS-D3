@@ -2,10 +2,8 @@ import { getInput } from "../../utils/utils";
 import { GridHelper } from "src/utils/GridHelper";
 
 export function part1(input: string): unknown {
-  const width = input.split("\n")[0].length;
-
   let answer = 0;
-  const grid = new GridHelper(input);
+  const grid = new GridHelper(input, 1);
   for (const cell of grid.cells) {
     const rollsOfPaper = cell.neighbors.filter((value) => value == "@");
     if (cell.value == "@" && rollsOfPaper.length < 4) answer++;
@@ -16,13 +14,13 @@ export function part1(input: string): unknown {
 export function part2(input: string): unknown {
   let total = 0;
 
-  let grid = new GridHelper(input);
+  let grid = new GridHelper(input, 1);
   let prevRollCount = 0
   let nextRollCount = grid.getCount("@");
 
   while (prevRollCount != nextRollCount) {
     prevRollCount = nextRollCount;
-    grid = new GridHelper(grid.getGrid());
+    grid = new GridHelper(grid.getGrid(), 1);
     for (const cell of grid.cells) {
       const rollsOfPaper = cell.neighbors.filter((value) => value == "@");
       if (cell.value == "@" && rollsOfPaper.length < 4) {

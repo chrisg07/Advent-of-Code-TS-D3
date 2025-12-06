@@ -2,58 +2,63 @@ export class GridHelper {
   public cells: { value: string; neighbors: string[] }[] = [];
   private width;
 
-  constructor(input: string) {
+  constructor(input: string, neighborRange: number) {
     this.width = input.split("\n")[0].length;
     const lines = input.trim().split("\n");
-    const line = lines.join("");
+    const cells = lines.map((line) => line.split(""));
+    const leftBound = neighborRange * -1;
 
-    for (let i = 0; i < line.length; i++) {
-      const west = i % this.width != 0 ? i - 1 : -1;
-      const east = (i + 1) % this.width != 0 ? i + 1 : -1;
-      const north = i - this.width;
-      const south = i + this.width;
-      const northWest = i % this.width != 0 ? i - this.width - 1 : -1;
-      const northEast = (i + 1) % this.width != 0 ? i - this.width + 1 : -1;
-      const southWest = i % this.width != 0 ? i + this.width - 1 : -1;
-      const southEast = (i + 1) % this.width != 0 ? i + this.width + 1 : -1;
+    let neighborOffsets: [number, number][] = [];
+    for (let i = leftBound; i <= neighborRange; i++) {
+      for (let j = leftBound; j <= neighborRange; j++) {
+        if (i != 0 || j != 0) {
+          const neighborOffset: [number, number] = [i, j];
+          neighborOffsets.push(neighborOffset);
+        }
+      }
+    }
 
-      const neighbors = [
-        west,
-        east,
-        north,
-        south,
-        northWest,
-        northEast,
-        southWest,
-        southEast,
-      ];
+    for (let i = 0; i < cells.length; i++) {
+      for (let j = 0; j < cells[i].length; j++) {
+        const value = cells[i][j];
 
-      const validNeighbors = neighbors.filter(
-        (index) => index >= 0 && index <= line.length
-      );
-      const neighborSymbols = validNeighbors.map((index) => line.charAt(index));
-      this.cells.push({ value: line.charAt(i), neighbors: neighborSymbols });
+        let neighbors: string[] = [];
+        for (const offset of neighborOffsets) {
+          const neighborX = i + offset[0];
+          const neighborY = j + offset[1];
+          if (
+            neighborX >= 0 &&
+            neighborX < cells.length &&
+            neighborY >= 0 &&
+            neighborY < cells[neighborX].length
+          ) {
+            const neighboringCell = cells[neighborX][neighborY];
+            neighbors.push(neighboringCell);
+          }
+        }
+        this.cells.push({ value, neighbors });
+      }
     }
   }
 
   public getGrid(): string {
     let grid = "";
-    let lines = 0
+    let lines = 0;
     for (const cell of this.cells) {
       grid += cell.value;
       if (grid.length != 0 && (grid.length - lines) % this.width === 0) {
         grid += "\n";
-        lines++
+        lines++;
       }
     }
     return grid;
   }
 
   public getCount(char: string): number {
-    let count = 0
+    let count = 0;
     for (const cell of this.cells) {
-      if (cell.value === char) count++
+      if (cell.value === char) count++;
     }
-    return count
+    return count;
   }
 }
