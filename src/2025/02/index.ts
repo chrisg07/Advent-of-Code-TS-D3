@@ -1,4 +1,4 @@
-import { getInput, parseNumbersFromString } from "../../utils";
+import { getInput, parseNumbersFromString } from "../../utils/utils";
 
 export function part1(input: string): unknown {
   const ids = parseNumbersFromString(input).map((id) => id.toString());

@@ -1,4 +1,4 @@
-import { getInput } from '../../utils';
+import { getInput } from '../../utils/utils';
 
 export function part1(input: string): unknown {
     let answer = 0

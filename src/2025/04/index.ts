@@ -1,10 +1,11 @@
-import { getInput, GridHelper } from "../../utils";
+import { getInput } from "../../utils/utils";
+import { GridHelper } from "src/utils/GridHelper";
 
 export function part1(input: string): unknown {
   const width = input.split("\n")[0].length;
 
   let answer = 0;
-  const grid = new GridHelper(input, width);
+  const grid = new GridHelper(input);
   for (const cell of grid.cells) {
     const rollsOfPaper = cell.neighbors.filter((value) => value == "@");
     if (cell.value == "@" && rollsOfPaper.length < 4) answer++;

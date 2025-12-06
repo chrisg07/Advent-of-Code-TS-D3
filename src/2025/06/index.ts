@@ -1,5 +1,5 @@
 import { profile } from "node:console";
-import { getInput, parseNumbersFromString } from "../../utils";
+import { getInput, parseNumbersFromString } from "../../utils/utils";
 
 export function part1(input: string): unknown {
   // TODO: Implement Part 1 solution

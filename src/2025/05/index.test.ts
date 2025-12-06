@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { part1, part2 } from './index';
-import { getInput } from 'src/utils';
+import { getInput } from 'src/utils/utils';
 
 const exampleInput = `3-5
 10-14

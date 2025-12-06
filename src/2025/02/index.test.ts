@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { part1, part2 } from "./index";
-import { getInput } from "src/utils";
+import { getInput } from "src/utils/utils";
 
 const exampleInput = `11-22,95-115,998-1012,1188511880-1188511890,222220-222224,
 1698522-1698528,446443-446449,38593856-38593862,565653-565659,
